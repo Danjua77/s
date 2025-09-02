@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Diapositivas - Protesta Estudiantil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --azul: #003366;
+      --gris: #888888;
+      --blanco: #fff;
+      --negro: #111;
+      --rojo: #e53935;
+      --amarillo: #ffd600;
+    }
+    body {
+      margin: 0;
+      background: var(--gris);
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: var(--negro);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    .slide-container {
+      background: var(--blanco);
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-header {
+      width: 100%;
+      min-height: 90px;
+      background: linear-gradient(90deg, var(--azul) 70%, var(--rojo) 100%);
+      color: var(--blanco);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8vw;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: 'Impact', 'Montserrat', Arial, sans-serif;
+      text-shadow: 2px 2px 0 var(--negro), 0 2px 8px var(--rojo);
+      border-bottom: 2px solid var(--rojo);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      position: relative;
+      z-index: 1;
+      padding: 0 2vw;
+      text-align: center;
+    }
+    .banner {
+      position: absolute;
+      top: 18px;
+      left: 24px;
+      background: var(--amarillo);
+      color: var(--negro);
+      font-weight: bold;
+      font-size: 1.3vw;
+      padding: 0.7vw 2.5vw;
+      transform: rotate(-8deg);
+      box-shadow: 4px 4px 0 var(--rojo), 0 2px 12px rgba(0,0,0,0.15);
+      border: 3px solid var(--negro);
+      z-index: 2;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      filter: drop-shadow(0 0 8px var(--rojo));
+      pointer-events: none;
+    }
+    .slide-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: var(--negro);
+      font-weight: 500;
+      line-height: 1.4;
+      font-size: 2vw;
+      padding: 0 4vw;
+      transition: opacity 0.5s, transform 0.5s;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .slide-content.anim-out {
+      opacity: 0;
+      transform: translateX(-60px);
+      pointer-events: none;
+    }
+    .slide-content.anim-in {
+      opacity: 0;
+      transform: translateX(60px);
+      pointer-events: none;
+    }
+    .slide-content.anim-show {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .slide-footer {
+      width: 100%;
+      background: var(--negro);
+      color: var(--amarillo);
+      padding: 1vw 2vw;
+      font-size: 1.3vw;
+      letter-spacing: 1px;
+      font-weight: bold;
+      text-align: center;
+      font-family: 'Montserrat', Arial, sans-serif;
+      border-top: 2px solid var(--azul);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.10);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      display: block;
+    }
+    @media (max-width: 700px) {
+      .slide-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        max-width: none;
+        max-height: none;
+      }
+      .slide-header { font-size: 6vw; min-height: 60px; padding: 0 2vw;}
+      .slide-content { font-size: 4vw; padding: 0 2vw;}
+      .slide-footer { font-size: 3vw; padding: 2vw;}
+      .banner { font-size: 3vw; padding: 2vw 6vw; top: 10px; left: 10px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container" id="slide">
+    <div class="banner">¡Educación es un derecho!</div>
+    <div class="slide-header" id="slide-title"></div>
+    <div class="slide-content" id="slide-content"></div>
+    <div class="slide-footer" id="slide-footer"></div>
+  </div>
+  <script>
+    const slides = [
+      {
+        title: "sustentacion de trabajo de investigacion",
+        content: `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+          <img src="Pro.png" alt="Portada" style="max-width:99vw;max-height:92vh;">
+        </div>`,
+        footer: null // No mostrar footer en la principal
+      },
+      {
+        title: "Presupuesto Digno",
+        content: `<div>
+          Exigimos mayor inversión en infraestructura y recursos.<br>
+          <span style="color:var(--azul);font-weight:bold;">¡Escuelas dignas ya!</span>
+        </div>`,
+        footer: "Marcha Nacional"
+      },
+      {
+        title: "Participación Estudiantil",
+        content: `<div>
+          La voz estudiantil debe ser escuchada en todas las decisiones.<br>
+          <span>¡Participa y organiza!</span>
+        </div>`,
+        footer: "Consejo de Estudiantes"
+      },
+      {
+        title: "¡No a la privatización!",
+        content: `<div>
+          Defendamos la educación pública y gratuita.<br>
+          <span style="color:var(--rojo);font-weight:bold;">¡La educación no se vende!</span>
+        </div>`,
+        footer: "Plataforma Estudiantil"
+      },
+      {
+        title: "Infraestructura digna",
+        content: `<div>
+          Aulas, laboratorios y espacios adecuados para aprender.<br>
+          <span style="color:var(--azul);font-weight:bold;">¡Invertir en futuro!</span>
+        </div>`,
+        footer: "Red de Universitarios"
+      },
+      {
+        title: "Docentes valorados",
+        content: `<div>
+          Respeto y mejores condiciones para los profesores.<br>
+          <span style="color:var(--amarillo);font-weight:bold;">¡Sin docentes no hay educación!</span>
+        </div>`,
+        footer: "Sindicato de Maestros"
+      },
+      {
+        title: "¡Estudiantes organizados!",
+        content: `<div>
+          La unión hace la fuerza.<br>
+          <span style="color:var(--rojo);font-weight:bold;">¡Juntos por nuestros derechos!</span>
+        </div>`,
+        footer: "Movimiento Estudiantil"
+      }
+    ];
+    let current = 0;
+    function animateSlide(nextIdx, direction) {
+      const content = document.getElementById('slide-content');
+      const footer = document.getElementById('slide-footer');
+      content.classList.remove('anim-show');
+      content.classList.add('anim-out');
+      setTimeout(() => {
+        document.getElementById('slide-title').innerText = slides[nextIdx].title;
+        content.innerHTML = slides[nextIdx].content;
+        // Mostrar/ocultar footer según slide
+        if (slides[nextIdx].footer) {
+          footer.style.display = "block";
+          footer.innerText = slides[nextIdx].footer;
+        } else {
+          footer.style.display = "none";
+        }
+        content.classList.remove('anim-out');
+        content.classList.add('anim-in');
+        setTimeout(() => {
+          content.classList.remove('anim-in');
+          content.classList.add('anim-show');
+        }, 50);
+      }, 400);
+    }
+    function prevSlide() {
+      const next = (current - 1 + slides.length) % slides.length;
+      animateSlide(next, 'left');
+      current = next;
+    }
+    function nextSlide() {
+      const next = (current + 1) % slides.length;
+      animateSlide(next, 'right');
+      current = next;
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight') nextSlide();
+    });
+    // Inicializar
+    function initialRender(idx) {
+      document.getElementById('slide-title').innerText = slides[idx].title;
+      document.getElementById('slide-content').innerHTML = slides[idx].content;
+      const footer = document.getElementById('slide-footer');
+      if (slides[idx].footer) {
+        footer.style.display = "block";
+        footer.innerText = slides[idx].footer;
+      } else {
+        footer.style.display = "none";
+      }
+      document.getElementById('slide-content').classList.add('anim-show');
+    }
+    initialRender(current);
+  </script>
+</body>
+</html>
